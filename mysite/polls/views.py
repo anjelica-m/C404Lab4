@@ -19,8 +19,12 @@ def update_question(request, pk):
     questions = Question.objects.get(id=pk)
     serializer = QuestionSerializer(questions, data=request.data, partial=True)
     if serializer.is_valid():
+        # serializer.validated_data()
+        serializer.save()
         return Response(serializer.data)
+    
     return Response(status=400, data=serializer.errors)
+
 @api_view(['GET'])
 def get_questions(request):
     """
@@ -29,6 +33,7 @@ def get_questions(request):
     questions = Question.objects.all()
     serializer = QuestionSerializer(questions, many=True)
     return Response(serializer.data)
+
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
