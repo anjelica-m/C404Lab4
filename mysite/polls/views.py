@@ -3,13 +3,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
-from .models import Choice, Question
+from .models import Choice, Question, Image
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import QuestionSerializer
 
 ...
+
+def image_index(request):
+    data = Image.objects.all()
+    context = {
+        'data' : data
+    }
+    return render(request,"display.html", context)
+
 
 @api_view(['POST'])
 def update_question(request, pk):
